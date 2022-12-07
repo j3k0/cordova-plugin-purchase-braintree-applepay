@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-purchase-braintree-applepay"
+        version="13.1.0">
+
+    <name>Apple Pay support for cordova-plugin-purchase-braintree</name>
+
+    <description>
+        Braintree mobile payment processing SDK for Cordova.
+    </description>
+
+    <license>MIT</license>
+
+    <!-- JavaScript Interface -->
+    <js-module src="www/braintree-applepay.js" name="CdvPurchaseBraintreeApplePay">
+        <clobbers target="CdvPurchaseBraintreeApplePay" />
+    </js-module>
+
+    <!-- iOS Configuration -->
+    <platform name="ios">
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="BraintreeApplePayPlugin">
+                <param name="ios-package" value="BraintreeApplePayPlugin" />
+            </feature>
+        </config-file>
+
+        <!-- Add the ApplePay capability-->
+        <preference name="APPLE_PAY_MERCHANT_ID" />
+        <config-file target="**/Entitlements-Debug.plist"
+                parent="com.apple.developer.in-app-payments">
+                <array>
+                    <string>$APPLE_PAY_MERCHANT_ID</string>
+                </array>
+        </config-file>
+        <config-file target="**/Entitlements-Release.plist"
+                parent="com.apple.developer.in-app-payments">
+                <array>
+                    <string>$APPLE_PAY_MERCHANT_ID</string>
+                </array>
+        </config-file>
+
+        <source-file src="src/ios/BraintreeApplePayPlugin.m" compiler-flags="-I$PROJECT_DIR/$PROJECT_NAME/Plugins/cordova-plugin-purchase-braintree/" />
+    </platform>
+</plugin>

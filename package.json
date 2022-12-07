@@ -1,0 +1,47 @@
+{
+  "name": "cordova-plugin-purchase-braintree",
+  "version": "13.0.0",
+  "description": "A Cordova plugin for the Braintree mobile payment processing SDK with 3D secure and Data Collecting.",
+  "cordova": {
+    "id": "cordova-plugin-purchase-braintree",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j3k0/cordova-plugin-purchase-braintree-applepay.git"
+  },
+  "keywords": [
+    "cordova",
+    "braintree",
+    "applepay",
+    "payment",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "3ds",
+    "data collector",
+    "3ds 2",
+    "3d secure",
+    "threeD secure",
+    "fovea",
+    "iaptic",
+    "purchase"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "author": "Fovea",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/j3k0/cordova-plugin-purchase-braintree-applepay/issues"
+  },
+  "homepage": "https://github.com/j3k0/cordova-plugin-purchase-braintree-applepay#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
