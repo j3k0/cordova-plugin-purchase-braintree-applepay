@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-purchase-braintree",
+  "name": "cordova-plugin-purchase-braintree-applepay",
   "version": "13.1.1",
   "description": "A Cordova plugin for the Braintree mobile payment processing SDK with 3D secure and Data Collecting.",
   "cordova": {
-    "id": "cordova-plugin-purchase-braintree",
+    "id": "cordova-plugin-purchase-braintree-applepay",
     "platforms": [
       "android",
       "ios"
