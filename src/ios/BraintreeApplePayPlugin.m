@@ -17,6 +17,19 @@
 #define VERBOSITY_WARN 2
 #define VERBOSITY_ERROR 1
 
+@interface NSObject (OrNull)
++ (id)orNull:(id)value;
+@end
+
+@implementation NSObject (OrNull)
++ (id)orNull:(id)value {
+    if (value == nil) {
+        return [NSNull null];
+    }
+    return value;
+}
+@end
+
 @interface BraintreeApplePayPlugin : CDVPlugin <PKPaymentAuthorizationViewControllerDelegate>
 
 - (void) setLogger:(CDVInvokedUrlCommand *)command;
@@ -283,23 +296,23 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
 }
 
 - (NSDictionary*) formatBinData:(BTBinData*)binData into:(NSMutableDictionary*)dict {
-    dict[@"prepaid"] = binData.prepaid;
-    dict[@"healthcare"] = binData.healthcare;
-    dict[@"debit"] = binData.debit;
-    dict[@"durbinRegulated"] = binData.durbinRegulated;
-    dict[@"commercial"] = binData.commercial;
-    dict[@"payroll"] = binData.payroll;
-    dict[@"issuingBank"] = binData.issuingBank;
-    dict[@"countryOfIssuance"] = binData.countryOfIssuance;
-    dict[@"productID"] = binData.productID;
+    dict[@"prepaid"] = [NSObject orNull:binData.prepaid];
+    dict[@"healthcare"] = [NSObject orNull:binData.healthcare];
+    dict[@"debit"] = [NSObject orNull:binData.debit];
+    dict[@"durbinRegulated"] = [NSObject orNull:binData.durbinRegulated];
+    dict[@"commercial"] = [NSObject orNull:binData.commercial];
+    dict[@"payroll"] = [NSObject orNull:binData.payroll];
+    dict[@"issuingBank"] = [NSObject orNull:binData.issuingBank];
+    dict[@"countryOfIssuance"] = [NSObject orNull:binData.countryOfIssuance];
+    dict[@"productID"] = [NSObject orNull:binData.productID];
     return dict;
 }
 
 - (NSDictionary*) formatApplePayCardNonce:(BTApplePayCardNonce*)nonce into:(NSMutableDictionary*)dict {
-    dict[@"nonce"] = nonce.nonce;
-    dict[@"type"] = nonce.type;
+    dict[@"nonce"] = [NSObject orNull:nonce.nonce];
+    dict[@"type"] = [NSObject orNull:nonce.type];
     if (nonce.binData) {
-        dict[@"binData"] = [self formatBinData:nonce.binData into:[NSMutableDictionary dictionary]];
+        dict[@"binData"] = [NSObject orNull:[self formatBinData:nonce.binData into:[NSMutableDictionary dictionary]]];
     }
     return dict;
 }
@@ -343,14 +356,14 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
 - (NSDictionary*) formatPostalAddress:(CNPostalAddress*)address {
     if (!address) return nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[@"street"] = address.street;
-    dict[@"city"] = address.city;
-    dict[@"state"] = address.state;
-    dict[@"postalCode"] = address.postalCode;
-    dict[@"country"] = address.country;
-    dict[@"ISOCountryCode"] = address.ISOCountryCode;
-    dict[@"subAdministrativeArea"] = address.subAdministrativeArea;
-    dict[@"subLocality"] = address.subLocality;
+    dict[@"street"] = [NSObject orNull:address.street];
+    dict[@"city"] = [NSObject orNull:address.city];
+    dict[@"state"] = [NSObject orNull:address.state];
+    dict[@"postalCode"] = [NSObject orNull:address.postalCode];
+    dict[@"country"] = [NSObject orNull:address.country];
+    dict[@"ISOCountryCode"] = [NSObject orNull:address.ISOCountryCode];
+    dict[@"subAdministrativeArea"] = [NSObject orNull:address.subAdministrativeArea];
+    dict[@"subLocality"] = [NSObject orNull:address.subLocality];
     return dict;
 }
 
@@ -371,29 +384,29 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
     } else if (contact.contactType == CNContactTypeOrganization) {
         dict[@"contactType"] = @"Organization";
     }
-    dict[@"identifier"] = contact.identifier;
-    dict[@"namePrefix"] = contact.namePrefix;
-    dict[@"givenName"] = contact.givenName;
-    dict[@"middleName"] = contact.middleName;
-    dict[@"familyName"] = contact.familyName;
-    dict[@"previousFamilyName"] = contact.previousFamilyName;
-    dict[@"nameSuffix"] = contact.nameSuffix;
-    dict[@"nickname"] = contact.nickname;
+    dict[@"identifier"] = [NSObject orNull:contact.identifier];
+    dict[@"namePrefix"] = [NSObject orNull:contact.namePrefix];
+    dict[@"givenName"] = [NSObject orNull:contact.givenName];
+    dict[@"middleName"] = [NSObject orNull:contact.middleName];
+    dict[@"familyName"] = [NSObject orNull:contact.familyName];
+    dict[@"previousFamilyName"] = [NSObject orNull:contact.previousFamilyName];
+    dict[@"nameSuffix"] = [NSObject orNull:contact.nameSuffix];
+    dict[@"nickname"] = [NSObject orNull:contact.nickname];
 
-    dict[@"organizationName"] = contact.organizationName;
-    dict[@"departmentName"] = contact.departmentName;
-    dict[@"jobTitle"] = contact.jobTitle;
+    dict[@"organizationName"] = [NSObject orNull:contact.organizationName];
+    dict[@"departmentName"] = [NSObject orNull:contact.departmentName];
+    dict[@"jobTitle"] = [NSObject orNull:contact.jobTitle];
 
-    dict[@"phoneticGivenName"] = contact.phoneticGivenName;
-    dict[@"phoneticMiddleName"] = contact.phoneticMiddleName;
-    dict[@"phoneticFamilyName"] = contact.phoneticFamilyName;
-    dict[@"phoneticOrganizationName"] = contact.phoneticOrganizationName;
+    dict[@"phoneticGivenName"] = [NSObject orNull:contact.phoneticGivenName];
+    dict[@"phoneticMiddleName"] = [NSObject orNull:contact.phoneticMiddleName];
+    dict[@"phoneticFamilyName"] = [NSObject orNull:contact.phoneticFamilyName];
+    dict[@"phoneticOrganizationName"] = [NSObject orNull:contact.phoneticOrganizationName];
 
-    dict[@"note"] = contact.note;
-    dict[@"phoneNumbers"] = [self formatPhoneNumbers: contact.phoneNumbers];
-    dict[@"emailAddresses"] = [self formatLabeledStringArray:contact.emailAddresses];
+    dict[@"note"] = [NSObject orNull:contact.note];
+    dict[@"phoneNumbers"] = [NSObject orNull:[self formatPhoneNumbers: contact.phoneNumbers]];
+    dict[@"emailAddresses"] = [NSObject orNull:[self formatLabeledStringArray:contact.emailAddresses]];
     // @property (readonly, copy, NS_NONATOMIC_IOSONLY) NSArray<CNLabeledValue<CNPostalAddress*>*>           *postalAddresses;
-    dict[@"urlAddresses"] = [self formatLabeledStringArray:contact.urlAddresses];
+    dict[@"urlAddresses"] = [NSObject orNull:[self formatLabeledStringArray:contact.urlAddresses]];
     //    @property (readonly, copy, NS_NONATOMIC_IOSONLY) NSArray<CNLabeledValue<CNContactRelation*>*>         *contactRelations;
     //    @property (readonly, copy, NS_NONATOMIC_IOSONLY) NSArray<CNLabeledValue<CNSocialProfile*>*>           *socialProfiles;
     //    @property (readonly, copy, NS_NONATOMIC_IOSONLY) NSArray<CNLabeledValue<CNInstantMessageAddress*>*>   *instantMessageAddresses;
@@ -405,14 +418,14 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
 - (NSDictionary*) formatPaymentMethod:(PKPaymentMethod*)method {
     if (!method) return nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[@"displayName"] = method.displayName;
-    dict[@"network"] = method.network; // it's a NSString already
-    dict[@"type"] = [self formatPaymentMethodType:method.type];
+    dict[@"displayName"] = [NSObject orNull:method.displayName];
+    dict[@"network"] = [NSObject orNull:method.network]; // it's a NSString already
+    dict[@"type"] = [NSObject orNull:[self formatPaymentMethodType:method.type]];
     if (@available(iOS 13.4, *)) {
-        dict[@"secureElementPass"] = [self formatSecureElementPass: method.secureElementPass];
+        dict[@"secureElementPass"] = [NSObject orNull:[self formatSecureElementPass: method.secureElementPass]];
     }
     if (@available(iOS 13.0, *)) {
-        dict[@"billingAddress"] = [self formatCNContact:method.billingAddress];
+        dict[@"billingAddress"] = [NSObject orNull:[self formatCNContact:method.billingAddress]];
     }
     return dict;
 }
@@ -420,27 +433,27 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
 - (NSDictionary*) formatPaymentToken:(PKPaymentToken*)token {
     if (!token) return nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[@"paymentMethod"] = [self formatPaymentMethod:token.paymentMethod];
-    dict[@"transactionIdentifier"] = token.transactionIdentifier;
-    dict[@"paymentData"] = [token.paymentData base64EncodedStringWithOptions:0UL];
+    dict[@"paymentMethod"] = [NSObject orNull:[self formatPaymentMethod:token.paymentMethod]];
+    dict[@"transactionIdentifier"] = [NSObject orNull:token.transactionIdentifier];
+    dict[@"paymentData"] = [NSObject orNull:[token.paymentData base64EncodedStringWithOptions:0UL]];
     return dict;
 }
 
 - (NSDictionary*) formatShippingMethod:(PKShippingMethod*)method {
     if (!method) return nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[@"identifier"] = method.identifier;
-    dict[@"detail"] = method.detail;
+    dict[@"identifier"] = [NSObject orNull:method.identifier];
+    dict[@"detail"] = [NSObject orNull:method.detail];
     // dict[@"dateComponentsRange"] = method.dateComponentsRange; NOT SUPPORTED
     return dict;
 }
 
 - (NSDictionary*) formatPayment:(PKPayment*)payment into:(NSMutableDictionary*)dict {
     // A PKPaymentToken which contains an encrypted payment credential.
-    dict[@"token"] = [self formatPaymentToken:payment.token];
-    dict[@"shippingMethod"] = [self formatShippingMethod:payment.shippingMethod];
-    dict[@"shippingContact"] = payment.shippingContact;
-    dict[@"billingContact"] = [self formatPKContact:payment.billingContact];
+    dict[@"token"] = [NSObject orNull:[self formatPaymentToken:payment.token]];
+    dict[@"shippingMethod"] = [NSObject orNull:[self formatShippingMethod:payment.shippingMethod]];
+    dict[@"shippingContact"] = [NSObject orNull:payment.shippingContact];
+    dict[@"billingContact"] = [NSObject orNull:[self formatPKContact:payment.billingContact]];
     return dict;
 }
 
@@ -448,10 +461,10 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
     if (!contact) return nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     /** Contact's name. */
-    dict[@"name"] = contact.name;
-    dict[@"emailAddress"] = contact.emailAddress;
-    dict[@"phoneNumber"] = contact.phoneNumber;
-    dict[@"postalAddress"] = [self formatPostalAddress:contact.postalAddress];
+    dict[@"name"] = [NSObject orNull:contact.name];
+    dict[@"emailAddress"] = [NSObject orNull:contact.emailAddress];
+    dict[@"phoneNumber"] = [NSObject orNull:contact.phoneNumber];
+    dict[@"postalAddress"] = [NSObject orNull:[self formatPostalAddress:contact.postalAddress]];
     return dict;
 }
 
@@ -484,8 +497,8 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
             // NSDictionary * paymentInfo = [self getPaymentUINonceResult:tokenizedApplePayPayment];
             // [contactInfo addEntriesFromDictionary:paymentInfo];
             NSMutableDictionary *message = [NSMutableDictionary dictionary];
-            message[@"applePayCardNonce"] = [self formatApplePayCardNonce:applePayCardNonce into:[NSMutableDictionary dictionary]];
-            message[@"payment"] = [self formatPayment:payment into:[NSMutableDictionary dictionary]];
+            message[@"applePayCardNonce"] = [NSObject orNull:[self formatApplePayCardNonce:applePayCardNonce into:[NSMutableDictionary dictionary]]];
+            message[@"payment"] = [NSObject orNull:[self formatPayment:payment into:[NSMutableDictionary dictionary]]];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:message];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:dropInUICommand.callbackId];
             dropInUICommand = nil;
