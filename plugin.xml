@@ -20,6 +20,8 @@
     <!-- iOS Configuration -->
     <platform name="ios">
 
+        <preference name="APPLE_PAY_MERCHANT_ID" default="merchant.$PACKAGE_NAME" />
+
         <config-file target="config.xml" parent="/*">
             <feature name="BraintreeApplePayPlugin">
                 <param name="ios-package" value="BraintreeApplePayPlugin" />
@@ -27,7 +29,6 @@
         </config-file>
 
         <!-- Add the ApplePay capability-->
-        <preference name="APPLE_PAY_MERCHANT_ID" />
         <config-file target="**/Entitlements-Debug.plist"
                 parent="com.apple.developer.in-app-payments">
                 <array>

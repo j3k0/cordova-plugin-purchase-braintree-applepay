@@ -12,6 +12,8 @@ The plugin identifier is `cordova-plugin-purchase-braintree-applepay`. Here's ho
 cordova plugin add cordova-plugin-purchase-braintree-applepay --variable APPLE_PAY_MERCHANT_ID=merchant.my.app.com
 ```
 
+If unspecified, `APPLE_PAY_MERCHANT_ID` default value is `merchant.$PACKAGE_NAME`.
+
 ## Usage
 
 ### Initialization
