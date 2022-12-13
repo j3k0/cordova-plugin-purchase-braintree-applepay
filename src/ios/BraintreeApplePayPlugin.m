@@ -99,7 +99,10 @@ static const NSString *LOG_PREFIX = @"CordovaPlugin.Braintree";
 }
 
 - (BOOL) isApplePaySupported {
-    return ((PKPaymentAuthorizationViewController.canMakePayments) && ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:@[PKPaymentNetworkVisa, PKPaymentNetworkMasterCard, PKPaymentNetworkAmex, PKPaymentNetworkDiscover]]));
+    // Always show Apple Pay payment method option if device is capable of Apple Pay
+    // This way, users can setup a credit card for Apple Pay.
+    return PKPaymentAuthorizationViewController.canMakePayments;
+    // return ((PKPaymentAuthorizationViewController.canMakePayments) && ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:@[PKPaymentNetworkVisa, PKPaymentNetworkMasterCard, PKPaymentNetworkAmex, PKPaymentNetworkDiscover]]));
 }
 
 #pragma mark - Present UI
