@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+if [ "x$1" = "x--edit" ]; then
+  exec vim package.json package-lock.json plugin.xml www/braintree-applepay.js
+fi
+VP="$(cat package.json | grep '"version"' | head -1 | cut -d\" -f4)"
+VPL="$(cat package-lock.json | grep '"version"' | head -1 | cut -d\" -f4)"
+VPP="$(cat plugin.xml | grep -E '^[ ]+version="' | head -1 | cut -d \" -f2)"
+VJ="$(cat www/braintree-applepay.js | grep -w "version" | head -1 | cut -d\" -f2)"
+
+echo
+echo "    package.json:              $VP"
+echo "    package-lock.json:         $VPL"
+echo "    plugin.xml:                $VPP"
+echo "    www/braintree-applepay.js: $VJ"
+echo
+
+if [ "x$VP" = "x$VPL" ] && [ "x$VP" = "x$VPP" ] && [ "x$VP" = "x$VJ" ]; then
+  echo "All version numbers match: $VP"
+else
+  echo "VERSION NUMBERS MISMATCH"
+  exit 1
+fi
